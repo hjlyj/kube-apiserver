@@ -1,3 +1,4 @@
+---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
@@ -150,7 +151,7 @@ spec:
     spec:
       hostNetwork: true
       nodeSelector:
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/arch: amd64
       tolerations:
       - operator: Exists
         effect: NoSchedule
@@ -233,14 +234,14 @@ spec:
     spec:
       hostNetwork: true
       nodeSelector:
-        beta.kubernetes.io/arch: arm64
+        kubernetes.io/arch: arm64
       tolerations:
       - operator: Exists
         effect: NoSchedule
       serviceAccountName: flannel
       initContainers:
       - name: install-cni
-        image: quay-mirror.qiniu.com/coreos/flannel:v0.11.0-arm64
+        image: quay.io/coreos/flannel:v0.17.0-arm64
         command:
         - cp
         args:
@@ -254,7 +255,7 @@ spec:
           mountPath: /etc/kube-flannel/
       containers:
       - name: kube-flannel
-        image: quay-mirror.qiniu.com/coreos/flannel:v0.11.0-arm64
+        image: quay.io/coreos/flannel:v0.17.0-arm64
         command:
         - /opt/bin/flanneld
         args:
@@ -316,14 +317,14 @@ spec:
     spec:
       hostNetwork: true
       nodeSelector:
-        beta.kubernetes.io/arch: arm
+        kubernetes.io/arch: arm
       tolerations:
       - operator: Exists
         effect: NoSchedule
       serviceAccountName: flannel
       initContainers:
       - name: install-cni
-        image: quay-mirror.qiniu.com/coreos/flannel:v0.11.0-arm
+        image: quay.io/coreos/flannel:v0.11.0-arm
         command:
         - cp
         args:
@@ -337,7 +338,7 @@ spec:
           mountPath: /etc/kube-flannel/
       containers:
       - name: kube-flannel
-        image: quay-mirror.qiniu.com/coreos/flannel:v0.11.0-arm
+        image: quay.io/coreos/flannel:v0.11.0-arm
         command:
         - /opt/bin/flanneld
         args:
@@ -399,14 +400,14 @@ spec:
     spec:
       hostNetwork: true
       nodeSelector:
-        beta.kubernetes.io/arch: ppc64le
+        kubernetes.io/arch: ppc64le
       tolerations:
       - operator: Exists
         effect: NoSchedule
       serviceAccountName: flannel
       initContainers:
       - name: install-cni
-        image: quay-mirror.qiniu.com/coreos/flannel:v0.11.0-ppc64le
+        image: quay.io/coreos/flannel:v0.11.0-ppc64le
         command:
         - cp
         args:
@@ -420,7 +421,7 @@ spec:
           mountPath: /etc/kube-flannel/
       containers:
       - name: kube-flannel
-        image: quay-mirror.qiniu.com/coreos/flannel:v0.11.0-ppc64le
+        image: quay.io/coreos/flannel:v0.11.0-ppc64le
         command:
         - /opt/bin/flanneld
         args:
@@ -482,14 +483,14 @@ spec:
     spec:
       hostNetwork: true
       nodeSelector:
-        beta.kubernetes.io/arch: s390x
+        kubernetes.io/arch: s390x
       tolerations:
       - operator: Exists
         effect: NoSchedule
       serviceAccountName: flannel
       initContainers:
       - name: install-cni
-        image: quay-mirror.qiniu.com/coreos/flannel:v0.11.0-s390x
+        image: quay.io/coreos/flannel:v0.11.0-s390x
         command:
         - cp
         args:
@@ -503,7 +504,7 @@ spec:
           mountPath: /etc/kube-flannel/
       containers:
       - name: kube-flannel
-        image: quay-mirror.qiniu.com/coreos/flannel:v0.11.0-s390x
+        image: quay.io/coreos/flannel:v0.11.0-s390x
         command:
         - /opt/bin/flanneld
         args:
