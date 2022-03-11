@@ -1,2 +1,2 @@
 By DDJ
-Kubernetes使用kubeadm安装部署脚本
+Kubernetes浣跨敤kubeadm瀹夎閮ㄧ讲鑴氭湰
