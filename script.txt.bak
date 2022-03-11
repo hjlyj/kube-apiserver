@@ -20,6 +20,7 @@ yum clean all
 yum makecache
 
 yum install -y wget
+#yum install -y scp
 
 #kubeadmin 安装k8s
 
@@ -45,6 +46,8 @@ sysctl --system
 cat  <<EOF >>  /etc/hosts
 192.168.188.202 Master
 192.168.188.203 Node1
+192.168.188.202 master
+192.168.188.203 node1
 EOF
 
 #
@@ -111,11 +114,37 @@ mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 
+kubectl apply -f kube-flannel.yml
+
+kubectl get pods --all-namespaces
 kubectl get nodes
+
+
+
+#重置集群
+#kubeadm reset
+#rm -rf $HOME/.kube
 
 #node	要看master的输出
-kubeadm join 192.168.188.202:6443 --token o3hp7a.jfwt8riccqqkw70t \
-        --discovery-token-ca-cert-hash sha256:79cfe6c9863f4d05374e9f95f671db209992dd3e8ea8c2a8713bc2603c640d1f
+#kubeadm join 192.168.188.202:6443 --token o3hp7a.jfwt8riccqqkw70t \
+#       --discovery-token-ca-cert-hash sha256:79cfe6c9863f4d05374e9f95f671db209992dd3e8ea8c2a8713bc2603c640d1f
 
 kubectl get nodes
+###The connection to the server localhost:8080 was refused - did you specify the right host or port?
+#scp -r /etc/kubernetes/admin.conf ${node1}:/etc/kubernetes/admin.conf
+#echo "export KUBECONFIG=/etc/kubernetes/admin.conf" >> ~/.bash_profile
+#source ~/.bash_profile
+
+#node删除配置文件
+rm -f /etc/kubernetes/kubelet.conf
+systemctl restart docker kubelet
+rm -f /etc/kubernetes/pki/ca.crt
+docker ps -qa | xargs docker rm -f
+rm -f /etc/kubernetes/admin.conf
+
+#生成注册命令
+kubeadm token create --print-join-command
+#
+
+kubectl apply -f kube-flannel.yml
 
