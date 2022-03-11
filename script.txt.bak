@@ -97,6 +97,7 @@ docker images |grep registry.aliyuncs.com |awk '{print "docker tag ",$1":"$2,$1"
 
 docker pull registry.aliyuncs.com/google_containers/coredns:v1.8.6
 
+#删除镜像
 docker images |grep registry.aliyuncs.com/google_containers |awk '{print "docker rmi ", $1":"$2}' |sh -x
 
 

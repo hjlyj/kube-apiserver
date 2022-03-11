@@ -96,7 +96,7 @@ kubeadm config images list |sed -e 's/^/docker pull /g' -e 's#k8s.gcr.io#registr
 docker images |grep registry.aliyuncs.com |awk '{print "docker tag ",$1":"$2,$1":"$2}' |sed -e 's#registry.aliyuncs.com/google_containers#k8s.gcr.io#2' |sh -x
 
 docker pull registry.aliyuncs.com/google_containers/coredns:v1.8.6
-
+docker tag a4ca41631cc7 k8s.gcr.io/coredns/coredns:v1.8.6
 #删除镜像
 docker images |grep registry.aliyuncs.com/google_containers |awk '{print "docker rmi ", $1":"$2}' |sh -x
 
