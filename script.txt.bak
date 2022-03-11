@@ -86,6 +86,8 @@ yum install -y kubelet kubeadm kubectl
 #
 systemctl enable kubelet;systemctl start kubelet
 
+
+#Master
 #可以选择去建立阿里云仓库吧
 
 #docker images |awk '{print "docker rmi -f ",$3}'|sh -x #删除所有镜像
@@ -96,7 +98,7 @@ kubeadm config images list |sed -e 's/^/docker pull /g' -e 's#k8s.gcr.io#registr
 docker images |grep registry.aliyuncs.com |awk '{print "docker tag ",$1":"$2,$1":"$2}' |sed -e 's#registry.aliyuncs.com/google_containers#k8s.gcr.io#2' |sh -x
 
 docker pull registry.aliyuncs.com/google_containers/coredns:v1.8.6
-
+docker tag a4ca41631cc7 k8s.gcr.io/coredns/coredns:v1.8.6
 #删除镜像
 docker images |grep registry.aliyuncs.com/google_containers |awk '{print "docker rmi ", $1":"$2}' |sh -x
 
@@ -109,11 +111,11 @@ mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 
-
+kubectl get nodes
 
 #node	要看master的输出
-#kubeadm join 192.168.188.202:6443 --token eb4liz.808mv16d6iyktxag \
-#        --discovery-token-ca-cert-hash sha256:9ad64a882d79fafab32480d2f6d776692f57b7b5c17b9298e932e23c3f781dbd 
+kubeadm join 192.168.188.202:6443 --token o3hp7a.jfwt8riccqqkw70t \
+        --discovery-token-ca-cert-hash sha256:79cfe6c9863f4d05374e9f95f671db209992dd3e8ea8c2a8713bc2603c640d1f
 
 kubectl get nodes
 
