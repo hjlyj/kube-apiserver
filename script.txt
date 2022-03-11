@@ -1,8 +1,8 @@
 #硬件要求
 Master 要 2G 内存和 2Core
 #
-hostnamectl --static set-hostname  Masteraster
-hostnamectl --static set-hostname  Node1
+hostnamectl --static set-hostname  master
+hostnamectl --static set-hostname  node1
 #
 mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 
@@ -44,8 +44,6 @@ sysctl --system
 
 #
 cat  <<EOF >>  /etc/hosts
-192.168.188.202 Master
-192.168.188.203 Node1
 192.168.188.202 master
 192.168.188.203 node1
 EOF
@@ -61,7 +59,6 @@ systemctl enable docker;systemctl start docker
 mkdir -p /etc/docker
 tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors":["http://f1361db2.m.daocloud.io"],
   "exec-opts":["native.cgroupdriver=systemd"]
 }
 EOF
