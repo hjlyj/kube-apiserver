@@ -63,6 +63,7 @@ systemctl enable docker;systemctl start docker
 mkdir -p /etc/docker
 tee /etc/docker/daemon.json <<-'EOF'
 {
+  "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn/","https://hub-mirror.c.163.com","https://registry.docker-cn.com"],
   "exec-opts":["native.cgroupdriver=systemd"]
 }
 EOF
@@ -131,6 +132,7 @@ kubectl apply -f kube-flannel.yml
 
 kubectl get pods --all-namespaces
 kubectl get pods -n kube-system -owide
+kubectl get pod -o wide
 kubectl get nodes
 
 #Yum包复制
@@ -160,5 +162,12 @@ kubectl get nodes
 #生成注册命令
 kubeadm token create --print-join-command
 #
+
+#master测试搭建nginx
+#kubectl create deployment nginx --image=nginx
+#kubectl expose deployment nginx --port=80 --type=NodePort
+#kubectl get pods,svc
+kubectl describe pod nginx-85b98978db-mdp57
+
 
 
