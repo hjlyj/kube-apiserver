@@ -77,7 +77,7 @@ sysctl --system
 
 #
 cat  <<EOF >>  /etc/hosts
-192.168.188.202 master
+192.168.188.202 master registry
 192.168.188.203 node1
 192.168.188.204 node2
 EOF

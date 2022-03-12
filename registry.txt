@@ -1,0 +1,21 @@
+docker pull registry
+
+docker run -d -p 5000:5000 --name=registry -v `pwd` --restart=always --privileged=true  --log-driver=none -v /home/data/registrydata:/var/lib/registry registry
+#docker run -d -p 5000:5000 -v `pwd`/data:/var/lib/registry --restart=always --name registry registry:2
+docker stop registry
+docker rm registry
+
+#查看仓库列表
+curl http://192.168.188.202:5000/v2/_catalog
+
+docker ps | grep registry
+
+#进入容器
+docker exec -it ec3d30bff042 /bin/bash
+docker exec -it ec3d30bff042 sh
+
+#修改镜像名字
+docker tag java:latest registry:5000/java
+
+#上传镜像
+docker push registry:5000/java
