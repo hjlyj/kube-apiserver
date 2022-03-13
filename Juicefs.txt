@@ -1,0 +1,27 @@
+#安装
+sudo install juicefs /usr/local/bin
+
+#
+juicefs format [command options] META-URL NAME
+
+#创建文件系统 用sqlite
+juicefs format sqlite3://myjfs.db myjfs
+
+#创建文件系统 用mysql
+mysql://<username>[:<password>]@(<host>:3306)/<database-name>
+mysql://root:mysql@(192.168.188.202:32206)/juicefs
+
+http://192.168.88.24:53449/juicefsbucket
+{"console":[{"url":"http://192.168.188.11:9000","access_key":"K3B0XZJ5XYDJ1NJJQDOF","secret_key":"tTQ3HVnahSCpl20ICQhJgDAL822XbM8TCizPefT+","api":"s3v4","path":"auto"}]}
+
+
+juicefs format \
+    --storage s3 \
+    --bucket http://s3server:9000/juicefsbucket \
+    --access-key K3B0XZJ5XYDJ1NJJQDOF \
+    --secret-key tTQ3HVnahSCpl20ICQhJgDAL822XbM8TCizPefT+ \
+	"mysql://root:mysql@(192.168.188.202:32206)/juicefs" \
+	myjuicefs01
+
+	
+juicefs format   mysql://root:mysql@(192.168.188.202:32206)/juicefs myjuicefs01

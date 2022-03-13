@@ -1,0 +1,89 @@
+#mysql
+kubectl create deployment mysql --image=registry:5000/mysql 
+
+kubectl expose deployment mysql --port=3306 --type=NodePort
+
+#
+kubectl get pods ${podName} -o yaml (yaml可改为 json\wide)
+
+#
+kubectl logs ${podName}
+
+#
+kubectl describe pod nginx-85b98978db-mdp57
+
+
+
+
+#配置文件方法
+#mysql-rc.yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: mysql-rc
+  labels:
+    name: mysql-rc
+spec:
+  replicas: 1
+  selector:
+    name: mysql-pod
+  template:
+    metadata:
+      labels: 
+        name: mysql-pod
+    spec:
+      containers:
+      - name: mysql
+        image: mysql
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "mysql"
+
+
+#mysql-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-svc
+  labels: 
+    name: mysql-svc
+spec:
+  type: NodePort
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+    name: http
+    nodePort: 32206
+  selector:
+    name: mysql-pod
+
+	
+#启动
+kubectl apply -f mysql-rc.yaml
+kubectl apply -f mysql-svc.yaml	
+	
+#进shell
+docker exec -it a312143dfd23 /bin/bash
+
+mysql -h 10.10.44.208 -P 3306 -u root -p mysql
+
+mysql> alter user 'root'@'%' identified with mysql_native_password by'root';
+mysql> alter user 'root'@'%' identified by '123456';
+mysql> use mysql;
+mysql> ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+mysql> flush privileges;
+
+
+
+
+
+
+
+
+
+
+		  
